@@ -1,9 +1,12 @@
 import java.util.HashMap;
 
+import org.omg.PortableInterceptor.IORInterceptor;
+
 public class WordNet
 {
 	private HashMap<Integer, String> ids;
 	private HashMap<String, SET<Integer>> nouns;
+	private HashMap<Integer, SET<String>> synsetss;
     private Digraph g;
     private SAP s;
 	
@@ -16,6 +19,7 @@ public class WordNet
     	
     	ids = new HashMap<>();
     	nouns = new HashMap<>();
+    	synsetss = new HashMap();
     	
     	// Parse synsets
         int largestId = -1;
@@ -32,13 +36,15 @@ public class WordNet
             {
                 largestId = id;
             }
-
+            
+            SET<String> kappa = new SET<>();
             // Nouns in synset
             String synset = tokens[1];
             String[] nouns = synset.split(" ");
             for (String noun : nouns)
             {
             	ids.put(id, noun);
+            	kappa.add(noun);
             	
                if (this.nouns.containsKey(noun))
                {
@@ -51,6 +57,8 @@ public class WordNet
             	   this.nouns.put(noun, thing);
                }
             }
+            
+            synsetss.put(id, kappa);
         }
         
         inSynsets.close();
@@ -141,13 +149,15 @@ public class WordNet
     		throw new IllegalArgumentException();
     	}
         
-    	String ancestor = "";
-        for (int noun : nouns.get(ids.get(s.ancestor(nouns.get(nounA), nouns.get(nounB)))))
+        int id = s.ancestor(nouns.get(nounA), nouns.get(nounB));
+        String ancestor = "";
+        
+        for (String noun : synsetss.get(id))
         {
-        	ancestor += ids.get(noun) + " ";
+        	ancestor += noun + " ";
         }
         
-        return ancestor.trim(); 
+        return ancestor.trim();
     }
     
     private void testNouns(String nounA, String nounB)
