@@ -77,6 +77,7 @@ public class WordNet
         s = new SAP(g);
         
         DirectedCycle c = new DirectedCycle(g);
+        
 		if (c.hasCycle()) 
 		{
 			throw new IllegalArgumentException();
@@ -124,8 +125,13 @@ public class WordNet
     	{
     		throw new IllegalArgumentException();
     	}
-    	
-        return ids.get(s.ancestor(nouns.get(nounA), nouns.get(nounB)));
+    	SET<Integer> idsA = nouns.get(nounA);
+        SET<Integer> idsB = nouns.get(nounB);
+
+        int ancestor = s.ancestor(idsA, idsB);
+        return ids.get(ancestor);
+        
+        // return ids.get(s.ancestor(nouns.get(nounA), nouns.get(nounB)));
     }
     
     private void testNouns(String nounA, String nounB)
