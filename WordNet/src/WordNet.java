@@ -38,6 +38,8 @@ public class WordNet
             String[] nouns = synset.split(" ");
             for (String noun : nouns)
             {
+            	ids.put(id, noun);
+            	
                if (this.nouns.containsKey(noun))
                {
             	   this.nouns.get(noun).add(id);
