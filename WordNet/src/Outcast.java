@@ -3,14 +3,34 @@ import java.util.Scanner;
 
 public class Outcast
 {
+	private WordNet w;
+	
 	public Outcast(WordNet wordnet)
 	{
-		throw new UnsupportedOperationException();
+		w = wordnet;
 	}
 
 	public String outcast(String[] nouns)
 	{
-		throw new UnsupportedOperationException();
+		int max = Integer.MIN_VALUE;
+		String outcast = null;
+		
+		for (String i : nouns)
+		{
+			int d = 0;
+			
+			for (String j : nouns)
+			{
+				d += w.distance(i, j);
+			}
+			
+			if (d > max)
+			{
+				outcast = i;
+			}
+		}
+		
+		return outcast;
 	}
 
 	// for unit testing of this class
