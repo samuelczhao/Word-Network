@@ -144,7 +144,7 @@ public class WordNet
     	String ancestor = "";
         for (int noun : nouns.get(ids.get(s.ancestor(nouns.get(nounA), nouns.get(nounB)))))
         {
-        	ancestor += noun + " ";
+        	ancestor += ids.get(noun) + " ";
         }
         
         return ancestor.trim(); 
