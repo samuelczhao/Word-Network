@@ -27,6 +27,7 @@ public class Outcast
 			if (d > max)
 			{
 				outcast = i;
+				max = d;
 			}
 		}
 		
