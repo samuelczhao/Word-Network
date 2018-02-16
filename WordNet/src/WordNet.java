@@ -1,12 +1,11 @@
 import java.util.HashMap;
 
-import org.omg.PortableInterceptor.IORInterceptor;
 
 public class WordNet
 {
 	private HashMap<Integer, String> ids;
 	private HashMap<String, SET<Integer>> nouns;
-	private HashMap<Integer, SET<String>> synsetss;
+	private HashMap<Integer, Queue<String>> synsetss;
     private Digraph g;
     private SAP s;
 	
@@ -37,14 +36,14 @@ public class WordNet
                 largestId = id;
             }
             
-            SET<String> kappa = new SET<>();
+            Queue<String> kappa = new Queue<>();
             // Nouns in synset
             String synset = tokens[1];
             String[] nouns = synset.split(" ");
             for (String noun : nouns)
             {
             	ids.put(id, noun);
-            	kappa.add(noun);
+            	kappa.enqueue(noun);
             	
                if (this.nouns.containsKey(noun))
                {
