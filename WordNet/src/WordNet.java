@@ -82,6 +82,21 @@ public class WordNet
 		{
 			throw new IllegalArgumentException();
 		}
+		
+		int roots = 0;
+		
+		for (int i = 0; i < g.V(); i++)
+		{
+			if (!g.adj(i).iterator().hasNext())
+			{
+				roots++;
+			}
+		}
+
+		if (roots != 1)
+		{
+			throw new IllegalArgumentException();
+		}
     }
 
     public Iterable<String> nouns()
@@ -125,13 +140,8 @@ public class WordNet
     	{
     		throw new IllegalArgumentException();
     	}
-    	SET<Integer> idsA = nouns.get(nounA);
-        SET<Integer> idsB = nouns.get(nounB);
-
-        int ancestor = s.ancestor(idsA, idsB);
-        return ids.get(ancestor);
         
-        // return ids.get(s.ancestor(nouns.get(nounA), nouns.get(nounB)));
+        return ids.get(s.ancestor(nouns.get(nounA), nouns.get(nounB)));
     }
     
     private void testNouns(String nounA, String nounB)
