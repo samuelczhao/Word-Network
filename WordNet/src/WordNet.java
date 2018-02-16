@@ -141,7 +141,13 @@ public class WordNet
     		throw new IllegalArgumentException();
     	}
         
-        return ids.get(s.ancestor(nouns.get(nounA), nouns.get(nounB)));
+    	String ancestor = "";
+        for (int noun : nouns.get(ids.get(s.ancestor(nouns.get(nounA), nouns.get(nounB)))))
+        {
+        	ancestor += noun + " ";
+        }
+        
+        return ancestor.trim(); 
     }
     
     private void testNouns(String nounA, String nounB)
