@@ -1,15 +1,21 @@
+import java.util.HashMap;
+
 public class WordNet
-{    
+{
+	private HashMap<Integer, String> ids;
+	private HashMap<String, SET<Integer>> nouns;
+    private Digraph g;
+    private SAP s;
+	
     public WordNet(String synsets, String hypernyms)
-    {
-    	// TODO:  You may use the code below to open and parse the
-    	// synsets and hypernyms file.  However, you MUST add your
-    	// own code to actually store the file contents into the
-    	// data structures you create as fields of the WordNet class.
+    {	
+    	ids = new HashMap<>();
+    	nouns = new HashMap<>();
     	
-        // Parse synsets
-        int largestId = -1;				// TODO: You might find this value useful 
+    	// Parse synsets
+        int largestId = -1;
         In inSynsets = new In(synsets);
+        
         while (inSynsets.hasNextLine())
         {
             String line = inSynsets.readLine();
@@ -27,12 +33,22 @@ public class WordNet
             String[] nouns = synset.split(" ");
             for (String noun : nouns)
             {
-               // TODO: you should probably do something here
+               if (this.nouns.containsKey(noun))
+               {
+            	   this.nouns.get(noun).add(id);
+               }
+               else
+               {
+            	   SET thing = new SET<Integer>();
+            	   thing.add(id);
+            	   this.nouns.put(noun, thing);
+               }
             }
-            
-            // tokens[2] is gloss, but we're not using that
         }
+        
         inSynsets.close();
+        
+        g = new Digraph(largestId);
         
         // Parse hypernyms
         In inHypernyms = new In(hypernyms);
@@ -43,35 +59,35 @@ public class WordNet
             
             int v = Integer.parseInt(tokens[0]);
             
-            for (int i=1; i < tokens.length; i++)
+            for (int i = 1; i < tokens.length; i++)
             {
-               // TODO: you should probably do something here
+            	g.addEdge(v, Integer.parseInt(tokens[i]));
             }
         }
+        
         inHypernyms.close();
-
-        // TODO: Remember to remove this when your constructor is done!
-    	throw new UnsupportedOperationException();
+        
+        s = new SAP(g);
     }
 
     public Iterable<String> nouns()
     {
-    	throw new UnsupportedOperationException();
+    	return nouns.keySet();
     }
 
     public boolean isNoun(String word)
     {
-    	throw new UnsupportedOperationException();
+    	return nouns.containsKey(word);
     }
 
     public int distance(String nounA, String nounB)
-    {
-    	throw new UnsupportedOperationException();
+    {    	
+    	return s.length(nouns.get(nounA), nouns.get(nounB));
     }
 
     public String sap(String nounA, String nounB)
     {
-    	throw new UnsupportedOperationException();
+        return ids.get(s.ancestor(nouns.get(nounA), nouns.get(nounB)));
     }
     
     private void testNouns(String nounA, String nounB)
