@@ -75,6 +75,12 @@ public class WordNet
         inHypernyms.close();
         
         s = new SAP(g);
+        
+        DirectedCycle c = new DirectedCycle(g);
+		if (c.hasCycle()) 
+		{
+			throw new IllegalArgumentException();
+		}
     }
 
     public Iterable<String> nouns()
