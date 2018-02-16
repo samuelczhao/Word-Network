@@ -48,7 +48,7 @@ public class WordNet
         
         inSynsets.close();
         
-        g = new Digraph(largestId);
+        g = new Digraph(largestId + 1);
         
         // Parse hypernyms
         In inHypernyms = new In(hypernyms);
