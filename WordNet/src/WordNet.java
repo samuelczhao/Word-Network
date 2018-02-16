@@ -9,6 +9,11 @@ public class WordNet
 	
     public WordNet(String synsets, String hypernyms)
     {	
+    	if (synsets == null || hypernyms == null)
+    	{
+    		throw new NullPointerException();
+    	}
+    	
     	ids = new HashMap<>();
     	nouns = new HashMap<>();
     	
@@ -77,16 +82,41 @@ public class WordNet
 
     public boolean isNoun(String word)
     {
+    	if (word == null)
+    	{
+    		throw new NullPointerException();
+    	}
+    	
     	return nouns.containsKey(word);
     }
 
     public int distance(String nounA, String nounB)
     {    	
+    	if (nounA == null || nounB == null)
+    	{
+    		throw new NullPointerException();
+    	}
+    	
+    	if (!isNoun(nounA) || !isNoun(nounB))
+    	{
+    		throw new IllegalArgumentException();
+    	}
+    	
     	return s.length(nouns.get(nounA), nouns.get(nounB));
     }
 
     public String sap(String nounA, String nounB)
     {
+    	if (nounA == null || nounB == null)
+    	{
+    		throw new NullPointerException();
+    	}
+    	
+    	if (!isNoun(nounA) || !isNoun(nounB))
+    	{
+    		throw new IllegalArgumentException();
+    	}
+    	
         return ids.get(s.ancestor(nouns.get(nounA), nouns.get(nounB)));
     }
     
