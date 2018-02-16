@@ -11,7 +11,7 @@ public class SAP
     {
     	BreadthFirstDirectedPaths V = new BreadthFirstDirectedPaths(g, v);
     	BreadthFirstDirectedPaths W = new BreadthFirstDirectedPaths(g, w);
-    	int min = Integer.MAX_VALUE;
+    	int min = -1;
     	for (int i = 0; i < g.V(); i++)
     	{
     		if (V.hasPathTo(i) && W.hasPathTo(i))
@@ -51,7 +51,7 @@ public class SAP
     {
     	BreadthFirstDirectedPaths V = new BreadthFirstDirectedPaths(g, v);
     	BreadthFirstDirectedPaths W = new BreadthFirstDirectedPaths(g, w);
-    	int min = Integer.MAX_VALUE;
+    	int min = -1;
     	for (int i = 0; i < g.V(); i++)
     	{
     		if (V.hasPathTo(i) && W.hasPathTo(i))
